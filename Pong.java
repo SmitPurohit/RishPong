@@ -15,8 +15,10 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
    private int x2 = 350;
    private int bX = 395;
    private int bY = 350;
-   private int xVel = 0;
-   private int xVel2 = 0;
+   private int changeX = 1;
+   private int changeY = 1;//the value bX or bY will change by
+   private double xVel = 0;
+   private double xVel2 = 0;
    private boolean acrL = false; //acr = acceleration
    private boolean acrR = false;
    private boolean acrL2 = false;
@@ -51,7 +53,7 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
          
       addBall(g);
       System.out.print(xVel+ " ");
-      //ballMove();
+      ballMove();
       
    }
    
@@ -74,7 +76,21 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
       g.fillRoundRect(bX,bY,10,10,30,10);
    }
    public void ballMove()
-   {}
+   {
+      if(bX==0 || bX == 745)
+      {
+         changeX = -changeX;
+         //changeX = (int)(Math.random()*2+1);
+      }
+      if(bY==0 || bY == 645)
+      {
+         changeY = -changeY;
+         //changeY = (int)(Math.random()*2+1);
+      }
+      bX+=changeX;
+      bY+=changeY;   
+      
+   }
    
    public void slow()
    {
