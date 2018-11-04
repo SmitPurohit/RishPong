@@ -17,8 +17,8 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
    private int bY = 350;
    private int changeX = 1;
    private int changeY = 1;//the value bX or bY will change by
-   private double xVel = 0;
-   private double xVel2 = 0;
+   private double xVel = 1;
+   private double xVel2 = 1;
    private boolean acrL = false; //acr = acceleration
    private boolean acrR = false;
    private boolean acrL2 = false;
@@ -73,7 +73,8 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
    public void addBall(Graphics g)
    {
       g.setColor(Color.lightGray);
-      g.fillRoundRect(bX,bY,10,10,30,10);
+      //g.fillRoundRect(bX,bY,10,10,30,10);
+      g.fillRect(bX,bY,10,10);
    }
    public void ballMove()
    {
@@ -87,19 +88,24 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
          changeY = -changeY;
          //changeY = (int)(Math.random()*2+1);
       }
+        
+      if((bX>=x1&&bX<=x1+80)&&(bY==590))
+      {
+         //changeX = (int)(0.4*xVel);
+         changeY = -changeY+(int)(0.4*xVel);
+      }   
       bX+=changeX;
-      bY+=changeY;   
-      
+      bY+=changeY;     
    }
    
    public void slow()
    {
-      xVel=0;
+      xVel=1;
    }
    
    public void slow2()
    {
-      xVel2 = 0;
+      xVel2 = 1;
    }
    
    public void moveLeft()
@@ -110,6 +116,7 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
       if(xVel > 3)
          xVel = 3;
       }
+      slow();
    }
    public void moveRight()
    {
@@ -119,6 +126,7 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
          if(xVel > 3)
             xVel = 3;
       }
+      slow();
       
    }
    public void moveLeft2(){
@@ -128,7 +136,7 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
       if(xVel2 > 3)
          xVel2 = 3;
       }
-      
+      slow2();
    }
    public void moveRight2(){
     if(x2 <= 695){
@@ -137,6 +145,7 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
          if(xVel > 3)
             xVel = 3;
       }
+      slow2();
    }
   
    @Override
