@@ -23,6 +23,7 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
    private boolean acrR = false;
    private boolean acrL2 = false;
    private boolean acrR2 = false;
+   private int speed = 7;
     
    public Pong(int fW,int fH)
    {
@@ -52,7 +53,7 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
          slow2();
          
       addBall(g);
-      System.out.print(xVel+ " ");
+      //System.out.print(xVel+ " ");
       ballMove();
       
    }
@@ -78,7 +79,7 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
    }
    public void ballMove()
    {
-      if(bX==0 || bX == 745)
+      if(bX==0 || bX == 745) //if the ball hits the sides
       {
          changeX = -changeX;
          //changeX = (int)(Math.random()*2+1);
@@ -93,9 +94,25 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
       {
          //changeX = (int)(0.4*xVel);
          changeY = -changeY+(int)(0.4*xVel);
-      }   
+         speed-= (int)(speed*.4);
+      }
+      if((bX>=x2&&bX<=x2+80)&&(bY==60))
+      {
+         changeY = changeY = -changeY+(int)(0.4*xVel);
+         speed-= (int)(speed*.4);
+         }   
       bX+=changeX;
-      bY+=changeY;     
+      bY+=changeY;
+      try 
+        {
+            //thread to sleep for the specified number of milliseconds
+            Thread.sleep(speed);
+        } 
+        catch ( java.lang.InterruptedException ie) 
+        {
+            System.out.println(ie);
+        } 
+        System.out.println(speed + " ");
    }
    
    public void slow()
