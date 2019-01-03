@@ -10,11 +10,16 @@ import java.awt.event.FocusEvent;
 
 public class Pong extends JPanel implements KeyListener, ActionListener, FocusListener
 {
+   //frame dimensions
    private int fW,fH;
+   
+   //position variables
    private int x1 = 350;
    private int x2 = 350;
    private int bX = 395;
    private int bY = 350;
+   
+   //motion variables
    private int changeX = 1;
    private int changeY = 1;//the value bX or bY will change by
    private double xVel = 1;
@@ -24,6 +29,13 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
    private boolean acrL2 = false;
    private boolean acrR2 = false;
    private int speed = 7;
+   
+   //scoreboard variables
+   private int p1Points = 0;
+   private int p2Points = 0;
+   private boolean p1Win = false;
+   private boolean p2Win = false;
+   
     
    public Pong(int fW,int fH)
    {
@@ -53,10 +65,37 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
          slow2();
          
       addBall(g);
-      //System.out.print(xVel+ " ");
+      //System.out.print(xVel+ " "
       ballMove();
       
+      addPoint();
+      checkWinner();
+      if(p1Win || p2Win)
+         endGame();
    }
+   
+   public void addPoint(){
+      if(bY<50)
+         p1Points++;
+      if(bY>600)
+         p2Points++;
+   }
+   
+   public void checkWinner(){
+      if(p1Points == 7)
+         p1Win = true;
+      if(p2Points == 7)
+         p2Win = true;
+      System.out.println(p1Points + " " + p2Points);
+   }
+  
+   public void endGame(){
+      if(p1Points > p2Points)
+         System.out.print("Player 1 Wins");
+      else
+         System.out.print("Player 2 Wins");
+   }
+
    
    public void addBackground(Graphics g)
    {
@@ -100,19 +139,19 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
       {
          changeY = changeY = -changeY+(int)(0.4*xVel);
          speed-= (int)(speed*.4);
-         }   
+      }   
       bX+=changeX;
       bY+=changeY;
       try 
-        {
+      {
             //thread to sleep for the specified number of milliseconds
-            Thread.sleep(speed);
-        } 
-        catch ( java.lang.InterruptedException ie) 
-        {
-            System.out.println(ie);
-        } 
-        System.out.println(speed + " ");
+         Thread.sleep(speed);
+      } 
+      catch ( java.lang.InterruptedException ie) 
+      {
+         System.out.println(ie);
+      } 
+      System.out.println(speed + " ");
    }
    
    public void slow()
@@ -128,10 +167,10 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
    public void moveLeft()
    {
       if(x1>=0){
-      x1-=2;
-      xVel+=1;
-      if(xVel > 3)
-         xVel = 3;
+         x1-=2;
+         xVel+=1;
+         if(xVel > 3)
+            xVel = 3;
       }
       slow();
    }
@@ -147,16 +186,16 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
       
    }
    public void moveLeft2(){
-   if(x2>=0){
-      x2-=2;
-      xVel2+=1;
-      if(xVel2 > 3)
-         xVel2 = 3;
+      if(x2>=0){
+         x2-=2;
+         xVel2+=1;
+         if(xVel2 > 3)
+            xVel2 = 3;
       }
       slow2();
    }
    public void moveRight2(){
-    if(x2 <= 695){
+      if(x2 <= 695){
          x2+=2;
          xVel2+=1;
          if(xVel > 3)
