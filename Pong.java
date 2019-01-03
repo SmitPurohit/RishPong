@@ -38,7 +38,7 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
    public void paint(Graphics g)
    {
       addBackground(g);
-      addPaddels(g);
+      addPaddles(g);
       if(acrL)
          moveLeft();
       if(acrR)
@@ -64,7 +64,7 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
       g.fillRect(0,0,fW,fH);
    }
   
-   public void addPaddels(Graphics g)
+   public void addPaddles(Graphics g)
    {
       g.setColor(Color.white);
       g.fillRect(x1,600,80,10);
