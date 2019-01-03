@@ -124,7 +124,9 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
             p1Points++; //if it hits the top, p1 gets point
          if(bY>=645)
             p2Points++;
-         changeY = -changeY;
+         
+         bX = 372;
+         bY = 322;
          //changeY = (int)(Math.random()*2+1);
       }
         
