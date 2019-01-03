@@ -68,23 +68,18 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
       //System.out.print(xVel+ " "
       ballMove();
       
-      addPoint();
+      
       checkWinner();
       if(p1Win || p2Win)
          endGame();
    }
    
-   public void addPoint(){
-      if(bY<50)
-         p1Points++;
-      if(bY>600)
-         p2Points++;
-   }
+  
    
    public void checkWinner(){
-      if(p1Points == 7)
+      if(p1Points == 3)
          p1Win = true;
-      if(p2Points == 7)
+      if(p2Points == 3)
          p2Win = true;
       System.out.println(p1Points + " " + p2Points);
    }
@@ -125,6 +120,10 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
       }
       if(bY==0 || bY == 645)
       {
+         if(bY<=1)
+            p1Points++; //if it hits the top, p1 gets point
+         if(bY>=645)
+            p2Points++;
          changeY = -changeY;
          //changeY = (int)(Math.random()*2+1);
       }
@@ -151,7 +150,7 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
       {
          System.out.println(ie);
       } 
-      System.out.println(speed + " ");
+      //System.out.println(speed + " ");
    }
    
    public void slow()
