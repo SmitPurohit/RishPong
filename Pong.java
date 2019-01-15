@@ -15,11 +15,14 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
    //frame dimensions
    private int fW,fH;
    
+   //pause/start variables
+   public boolean start = false;
+   
    //position variables
    private int x1 = 350; //x of the paddles
    private int x2 = 350;
    private int bX = 395; //x and y of the ball
-   private int bY = 350;
+   private int bY = 150;
    
    //motion variables
    private int changeX = 1;
@@ -52,36 +55,44 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
   
    public void paint(Graphics g)
    {
+      
       addBackground(g);
       addPaddles(g);
-      if(acrL)
-         moveLeft();
-      if(acrR)
-         moveRight();
-      if(acrL2)
-         moveLeft2();
-      if(acrR2)
-         moveRight2();
-      if(!acrL && !acrR)
-         slow();
-      if(!acrL2 && !acrR2)
-         slow2();
-         
       addBall(g);
-      //System.out.print(xVel+ " "
-      ballMove();
-      updateScoreboard(g);
+      if(start)
+      {
       
-      checkWinner();
-      if(p1Win || p2Win)
-         endGame(g);
-   }
-   
+      
+         if(acrL)
+            moveLeft();
+         if(acrR)
+            moveRight();
+         if(acrL2)
+            moveLeft2();
+         if(acrR2)
+            moveRight2();
+         if(!acrL && !acrR)
+            slow();
+         if(!acrL2 && !acrR2)
+            slow2();
+         
+         
+      //System.out.print(xVel+ " "
+         ballMove();
+         updateScoreboard(g);
+      
+         checkWinner();
+         if(p1Win || p2Win)
+            endGame(g);
+       
+      }
+}  
    public void updateScoreboard(Graphics g)
    {
       g.drawString(""+p2Points, 0, 300);
       g.drawString(""+p1Points, 0, 420);
-      }
+      
+   }
    
    public void checkWinner(){
       if(p1Points == 5)
@@ -139,27 +150,33 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
       if(bY<=1 || bY >= 635)
       {
          
-          try{Thread.sleep(1000);}
+         try{Thread.sleep(1000);}
          catch(InterruptedException e){} //stops the game to give players breather
          
          if(bY<=1)
-            p1Points++; //if it hits the top, p1 gets point
-         if(bY>=645)
-            p2Points++; //^^
+         {
+            this.p1Points++;
+            start = false; //if it hits the top, p1 gets point
+            }
+         if(bY>=635)
+         {
+            this.p2Points++; //^^
+            start = false;
+            }
         
         
          x1 = x2 = 375;
          bX = 372;
-         bY = 322;
-         speed = changeX = changeY = 1; //resets speed
-         
+         bY = 195;
+         speed = changeX = changeY = 1;//resets speed
          //changeY = (int)(Math.random()*2+1);
       }
         
       if((bX>=x1&&bX<=x1+80)&&(bY==590))
       {
          //changeX = (int)(0.4*xVel);
-         speed = Math.abs(speed) + .1 + (.2*xVel);
+         if(speed<2.8)
+            speed = Math.abs(speed) + .1 + (.1*xVel);
          changeY = -(int)speed;
          if(changeX < 0)
             changeX = -(int)speed;
@@ -169,7 +186,8 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
       }
       if((bX>=x2&&bX<=x2+80)&&(bY==60))
       {
-         speed = Math.abs(speed) + .1*Math.abs(speed) + (.2*xVel2);
+         if(speed<2.8)
+            speed = Math.abs(speed) + .1*Math.abs(speed) + (.1*xVel2);
          changeY = (int)speed;
          if(changeX < 0)
             changeX = -(int)speed;
@@ -179,6 +197,9 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
       }   
       bX+=changeX;
       bY+=changeY;
+      
+      
+      
       
       System.out.println(speed + " ");
    }
@@ -251,6 +272,8 @@ public class Pong extends JPanel implements KeyListener, ActionListener, FocusLi
          acrL2 = true;
       if(keyCode == KeyEvent.VK_D)
          acrR2 = true;
+      if(keyCode == KeyEvent.VK_SPACE)
+         start = !start;
    }
    
    @Override
